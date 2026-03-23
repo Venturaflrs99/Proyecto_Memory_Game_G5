@@ -27,8 +27,8 @@ Juego de memoria interactivo desarrollado con Django.
 
 1. **Clonar repositorio**
 ```bash
-git clone <tu-repositorio>
-cd Proyecto_memory_game_G5
+git clone https://github.com/Venturaflrs99/Proyecto_Memory_Game_G5.git
+cd Proyecto_Memory_Game_G5
 ```
 
 2. **Crear entorno virtual**
