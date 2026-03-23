@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juego de Memoria</title>
+{% load static %}
+<link rel="stylesheet" href="{% static 'juego/css/estilo.css' %}">
+</head>
+<body>
+<div class="contenedor">
+<h1>JUEGO DE MEMORIA GRUPO 05</h1>
+        
+<div class="info-juego">
+<div>JUGADOR: <span id="jugador">{{ usuario }}</span></div>
+<div>NIVEL: <span id="nivel">{{ nivel|upper }}</span></div>
+<div>TIEMPO: <span id="tiempo">60</span>s</div>
+<div>INTENTOS: <span id="intentos">0</span></div>
+<div>PUNTOS: <span id="puntuacion">0</span></div>
+<div>MOVIMIENTOS: <span id="movimientos">0</span></div>
+</div>
+        
+<div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
+<button id="btnNuevoJuego" class="btn">NUEVO JUEGO</button>
+<button id="btnEstadisticas" class="btn" style="background: transparent;">ESTADISTICAS</button>
+<button id="btnCambiarNivel" class="btn" style="background: transparent;">CAMBIAR NIVEL</button>
+<button id="btnCerrarSesion" class="btn" style="background: transparent;">CERRAR SESION</button>
+</div>
+
+<div class="tablero" id="tablero"></div>
+</div>
+
+<script>
+document.getElementById('btnCerrarSesion').addEventListener('click', function() {
+window.location.href = '/logout/';
+});
+        
+document.getElementById('btnCambiarNivel').addEventListener('click', function() {
+window.location.href = '/nivel/';
+});
+        
+document.getElementById('btnEstadisticas').addEventListener('click', function() {
+window.location.href = '/estadisticas/';
+});
+</script>
+<script src="{% static 'juego/js/memoria.js' %}"></script>
+</body>
+</html>

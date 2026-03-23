@@ -1,0 +1,271 @@
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: 'Arial', sans-serif;
+background: black;
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.contenedor {
+background: #111;
+border: 3px solid red;
+border-radius: 20px;
+padding: 2rem;
+max-width: 800px;
+width: 90%;
+}
+
+h1 {
+text-align: center;
+color: yellow;
+margin-bottom: 2rem;
+font-size: 2.5rem;
+text-shadow: 2px 2px 4px red;
+}
+
+
+.info-juego {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 0.5rem;
+margin-bottom: 1rem;
+padding: 1.5rem;
+background: black;
+border: 3px solid yellow;
+border-radius: 15px;
+color: yellow;
+font-size: 1.3rem;
+font-weight: bold;
+text-align: center;
+}
+
+.info-juego div {
+padding: 0.5rem;
+border-right: 2px solid red;
+}
+
+.info-juego div span {
+font-size: 1.5rem;
+font-weight: bolder;
+color: #ffaa00;
+text-shadow: 0 0 5px red;
+}
+
+.info-juego div:last-child {
+border-right: none;
+}
+
+#tiempo {
+font-weight: bold;
+transition: all 0.3s;
+font-size: 1.5rem;
+}
+
+#tiempo.advertencia {
+color: #ff9900;
+animation: parpadeo 1s infinite;
+}
+
+#tiempo.peligro {
+color: #ff0000;
+animation: parpadeo 0.5s infinite;
+font-weight: bolder;
+text-shadow: 0 0 10px red;
+}
+
+
+#intentos {
+font-weight: bold;
+font-size: 1.5rem;
+}
+
+#puntuacion, #movimientos {
+font-size: 1.5rem;
+font-weight: bold;
+}
+
+
+.btn {
+background: red;
+color: yellow;
+border: 2px solid yellow;
+padding: 0.8rem 1.5rem;
+border-radius: 5px;
+cursor: pointer;
+font-size: 1rem;
+font-weight: bold;
+transition: all 0.3s;
+flex: 1;
+}
+
+.btn:hover {
+background: yellow;
+color: red;
+border: 2px solid red;
+}
+
+.tablero {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 1rem;
+margin-top: 2rem;
+}
+
+
+.carta {
+aspect-ratio: 1;
+background: black;
+border: 3px solid red;
+border-radius: 10px;
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 2rem;
+cursor: pointer;
+transition: all 0.3s;
+overflow: hidden;
+}
+
+.carta img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+display: none;
+}
+
+.carta.volteada img {
+display: block;
+}
+
+.carta.volteada {
+background: yellow;
+border: 3px solid red;
+}
+
+.carta.encontrada {
+border: 3px solid yellow;
+opacity: 0.7;
+}
+
+.carta.encontrada img {
+display: block;
+}
+
+.carta:not(.volteada):not(.encontrada):hover {
+transform: scale(1.05);
+border-color: yellow;
+}
+
+@keyframes parpadeo {
+0%, 50%, 100% { opacity: 1; }
+25%, 75% { opacity: 0.5; }
+}
+
+@media (max-width: 768px) {
+.contenedor {
+padding: 1.5rem;
+}
+    
+h1 {
+font-size: 2rem;
+}
+    
+.tablero {
+gap: 0.8rem;
+}
+}
+
+@media (max-width: 600px) {
+.info-juego {
+grid-template-columns: 1fr;
+font-size: 1.1rem;
+padding: 1rem;
+}
+    
+.info-juego div {
+border-right: none;
+border-bottom: 2px solid red;
+padding: 0.5rem;
+}
+    
+.info-juego div:last-child {
+border-bottom: none;
+}
+    
+.info-juego div span {
+font-size: 1.3rem;
+}
+    
+.tablero {
+grid-template-columns: repeat(4, 1fr);
+gap: 0.5rem;
+}
+    
+.carta {
+font-size: 1.5rem;
+}
+    
+.btn {
+padding: 0.6rem 1rem;
+font-size: 0.9rem;
+}
+}
+
+@media (max-width: 400px) {
+.contenedor {
+padding: 1rem;
+}
+    
+h1 {
+font-size: 1.5rem;
+}
+    
+.info-juego {
+font-size: 1rem;
+padding: 0.8rem;
+}
+    
+.info-juego div span {
+font-size: 1.2rem;
+}
+}
+
+.btn {
+background: red;
+color: yellow;
+border: 2px solid yellow;
+padding: 0.8rem 1.5rem;
+border-radius: 5px;
+cursor: pointer;
+font-size: 1rem;
+font-weight: bold;
+transition: all 0.3s;
+flex: 1;
+min-width: 120px;
+text-decoration: none;
+display: inline-block;
+text-align: center;
+}
+
+.btn:hover {
+background: yellow;
+color: red;
+border: 2px solid red;
+}
+
+@media (max-width: 600px) {
+div[style*="display: flex"] {
+flex-direction: column;
+}
+    
+.btn {
+width: 100%;
+}
+}

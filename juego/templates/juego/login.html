@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memory Game - Login</title>
+{% load static %}
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Arial', sans-serif;
+}
+
+body {
+background: black;
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.contenedor {
+background: #111;
+border: 3px solid red;
+border-radius: 20px;
+padding: 2rem;
+width: 90%;
+max-width: 400px;
+}
+
+h1 {
+text-align: center;
+color: yellow;
+margin-bottom: 2rem;
+font-size: 2rem;
+text-shadow: 2px 2px 4px red;
+}
+
+.pestañas {
+display: flex;
+margin-bottom: 2rem;
+border-bottom: 2px solid yellow;
+}
+
+.pestaña {
+flex: 1;
+text-align: center;
+padding: 0.8rem;
+cursor: pointer;
+color: yellow;
+font-weight: bold;
+transition: all 0.3s;
+}
+
+.pestaña.activa {
+background: red;
+color: yellow;
+border-radius: 10px 10px 0 0;
+}
+
+.formulario {
+display: none;
+}
+
+.formulario.activo {
+display: block;
+}
+
+.campo {
+margin-bottom: 1.5rem;
+}
+
+label {
+display: block;
+color: yellow;
+margin-bottom: 0.5rem;
+font-weight: bold;
+}
+
+input {
+width: 100%;
+padding: 0.8rem;
+background: black;
+border: 2px solid red;
+border-radius: 5px;
+color: yellow;
+font-size: 1rem;
+}
+
+input:focus {
+outline: none;
+border-color: yellow;
+}
+
+.btn {
+width: 100%;
+padding: 1rem;
+background: red;
+color: yellow;
+border: 2px solid yellow;
+border-radius: 5px;
+font-size: 1.2rem;
+font-weight: bold;
+cursor: pointer;
+transition: all 0.3s;
+margin-top: 1rem;
+}
+
+.btn:hover {
+background: yellow;
+color: red;
+border-color: red;
+}
+
+.mensaje {
+margin-top: 1rem;
+padding: 0.8rem;
+border-radius: 5px;
+text-align: center;
+display: none;
+}
+
+.mensaje.error {
+background: rgba(255, 0, 0, 0.3);
+color: #ff6b6b;
+border: 1px solid red;
+display: block;
+}
+
+.mensaje.exito {
+background: rgba(0, 255, 0, 0.3);
+color: #6bff6b;
+border: 1px solid green;
+display: block;
+}
+</style>
+</head>
+<body>
+<div class="contenedor">
+<h1>MEMORY GAME GRUPO 05</h1>
+        
+<div class="pestañas">
+<div class="pestaña activa" id="pestañaLogin">INICIAR SESION</div>
+<div class="pestaña" id="pestañaRegistro">REGISTRARSE</div>
+</div>
+
+<div class="formulario activo" id="formLogin">
+<div class="campo">
+<label>USUARIO</label>
+<input type="text" id="loginUsuario" placeholder="Ingresa tu usuario">
+</div>
+<div class="campo">
+<label>CONTRASEÑA</label>
+<input type="password" id="loginPassword" placeholder="Ingresa tu contraseña">
+</div>
+<button class="btn" id="btnLogin">INGRESAR</button>
+</div>
+
+
+<div class="formulario" id="formRegistro">
+<div class="campo">
+<label>USUARIO</label>
+<input type="text" id="regUsuario" placeholder="Elige un usuario">
+</div>
+<div class="campo">
+<label>CORREO ELECTRONICO</label>
+<input type="email" id="regEmail" placeholder="tu@email.com">
+</div>
+<div class="campo">
+<label>CONTRASEÑA</label>
+<input type="password" id="regPassword" placeholder="Crea una contraseña">
+</div>
+<button class="btn" id="btnRegistro">REGISTRARSE</button>
+</div>
+
+<div id="mensaje" class="mensaje"></div>
+</div>
+
+<script>
+document.getElementById('pestañaLogin').addEventListener('click', function() {
+document.getElementById('pestañaLogin').classList.add('activa');
+document.getElementById('pestañaRegistro').classList.remove('activa');
+document.getElementById('formLogin').classList.add('activo');
+document.getElementById('formRegistro').classList.remove('activo');
+document.getElementById('mensaje').style.display = 'none';
+});
+
+document.getElementById('pestañaRegistro').addEventListener('click', function() {
+document.getElementById('pestañaRegistro').classList.add('activa');
+document.getElementById('pestañaLogin').classList.remove('activa');
+document.getElementById('formRegistro').classList.add('activo');
+document.getElementById('formLogin').classList.remove('activo');
+document.getElementById('mensaje').style.display = 'none';
+});
+
+document.getElementById('btnLogin').addEventListener('click', async function() {
+const username = document.getElementById('loginUsuario').value;
+const password = document.getElementById('loginPassword').value;
+const mensaje = document.getElementById('mensaje');
+
+if (!username || !password) {
+mensaje.className = 'mensaje error';
+mensaje.textContent = 'Por favor completa todos los campos';
+return;
+}
+
+const formData = new FormData();
+formData.append('username', username);
+formData.append('password', password);
+
+try {
+const respuesta = await fetch('/login-procesar/', {
+method: 'POST',
+body: formData
+});
+
+const datos = await respuesta.json();
+
+if (datos.success) {
+mensaje.className = 'mensaje exito';
+mensaje.textContent = '¡Login exitoso! Redirigiendo...';
+setTimeout(() => {
+window.location.href = '/nivel/';
+}, 1500);
+} else {
+mensaje.className = 'mensaje error';
+mensaje.textContent = datos.message;
+}
+} catch (error) {
+mensaje.className = 'mensaje error';
+mensaje.textContent = 'Error al conectar con el servidor';
+}
+});
+
+document.getElementById('btnRegistro').addEventListener('click', async function() {
+const username = document.getElementById('regUsuario').value;
+const email = document.getElementById('regEmail').value;
+const password = document.getElementById('regPassword').value;
+const mensaje = document.getElementById('mensaje');
+
+if (!username || !email || !password) {
+mensaje.className = 'mensaje error';
+mensaje.textContent = 'Por favor completa todos los campos';
+return;
+}
+
+const formData = new FormData();
+formData.append('username', username);
+formData.append('email', email);
+formData.append('password', password);
+
+try {
+const respuesta = await fetch('/registro-procesar/', {
+method: 'POST',
+body: formData
+});
+
+const datos = await respuesta.json();
+
+if (datos.success) {
+mensaje.className = 'mensaje exito';
+mensaje.textContent = '¡Registro exitoso! Redirigiendo...';
+setTimeout(() => {
+window.location.href = '/nivel/';
+}, 1500);
+} else {
+mensaje.className = 'mensaje error';
+mensaje.textContent = datos.message;
+}
+} catch (error) {
+mensaje.className = 'mensaje error';
+mensaje.textContent = 'Error al conectar con el servidor';
+}
+});
+</script>
+</body>
+</html>

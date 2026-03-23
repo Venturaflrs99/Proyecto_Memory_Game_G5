@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memory Game - Seleccionar Nivel</title>
+{% load static %}
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Arial', sans-serif;
+}
+
+body {
+background: black;
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.contenedor {
+background: #111;
+border: 3px solid red;
+border-radius: 20px;
+padding: 2rem;
+width: 90%;
+max-width: 600px;
+}
+
+h1 {
+text-align: center;
+color: yellow;
+margin-bottom: 1rem;
+font-size: 2rem;
+text-shadow: 2px 2px 4px red;
+}
+
+.subtitulo {
+text-align: center;
+color: yellow;
+margin-bottom: 2rem;
+font-size: 1.2rem;
+opacity: 0.8;
+}
+
+.info-jugador {
+background: black;
+border: 2px solid yellow;
+border-radius: 10px;
+padding: 1rem;
+margin-bottom: 2rem;
+color: yellow;
+text-align: center;
+font-size: 1.2rem;
+}
+
+.niveles {
+display: flex;
+flex-direction: column;
+gap: 1rem;
+margin-bottom: 2rem;
+}
+
+.nivel {
+background: black;
+border: 3px solid red;
+border-radius: 10px;
+padding: 1.5rem;
+cursor: pointer;
+transition: all 0.3s;
+color: yellow;
+}
+
+.nivel:hover {
+transform: scale(1.02);
+border-color: yellow;
+background: #1a1a1a;
+}
+
+.nivel.seleccionado {
+border-color: yellow;
+background: rgba(255, 0, 0, 0.2);
+}
+
+.nivel-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 0.5rem;
+}
+
+.nivel-nombre {
+font-size: 1.5rem;
+font-weight: bold;
+color: yellow;
+}
+
+.nivel-intentos {
+background: red;
+color: yellow;
+padding: 0.3rem 1rem;
+border-radius: 20px;
+font-weight: bold;
+}
+
+.nivel-descripcion {
+color: #ffd700;
+opacity: 0.8;
+}
+
+.btn {
+width: 100%;
+padding: 1rem;
+background: red;
+color: yellow;
+border: 2px solid yellow;
+border-radius: 5px;
+font-size: 1.2rem;
+font-weight: bold;
+cursor: pointer;
+transition: all 0.3s;
+}
+
+.btn:hover {
+background: yellow;
+color: red;
+border-color: red;
+}
+
+.btn:disabled {
+opacity: 0.5;
+cursor: not-allowed;
+}
+
+.btn.secundario {
+background: transparent;
+margin-top: 1rem;
+}
+</style>
+</head>
+<body>
+<div class="contenedor">
+<h1>MEMORY GAME GRUPO 05</h1>
+<div class="subtitulo">SELECCIONA EL NIVEL</div>
+        
+<div class="info-jugador">
+JUGADOR: <span id="jugador">{{ usuario }}</span>
+</div>
+
+<div class="niveles" id="niveles">
+<div class="nivel" data-nivel="basico" data-intentos="6">
+<div class="nivel-header">
+<span class="nivel-nombre">BASICO</span>
+<span class="nivel-intentos">6 INTENTOS</span>
+</div>
+<div class="nivel-descripcion">Para principiantes</div>
+</div>
+
+<div class="nivel" data-nivel="medio" data-intentos="4">
+<div class="nivel-header">
+<span class="nivel-nombre">MEDIO</span>
+<span class="nivel-intentos">4 INTENTOS</span>
+</div>
+<div class="nivel-descripcion">Para jugadores con experiencia</div>
+</div>
+
+<div class="nivel" data-nivel="avanzado" data-intentos="2">
+<div class="nivel-header">
+<span class="nivel-nombre">AVANZADO</span>
+<span class="nivel-intentos">2 INTENTOS</span>
+</div>
+<div class="nivel-descripcion">Solo para los mejores</div>
+</div>
+</div>
+
+<button class="btn" id="btnJugar" disabled>COMENZAR JUEGO</button>
+<button class="btn secundario" id="btnCerrarSesion">CERRAR SESION</button>
+</div>
+
+<script>
+let nivelSeleccionado = null;
+const niveles = document.querySelectorAll('.nivel');
+const btnJugar = document.getElementById('btnJugar');
+
+niveles.forEach(nivel => {
+nivel.addEventListener('click', function() {
+niveles.forEach(n => n.classList.remove('seleccionado'));
+this.classList.add('seleccionado');
+nivelSeleccionado = this.dataset.nivel;
+btnJugar.disabled = false;
+});
+});
+
+btnJugar.addEventListener('click', function() {
+if (nivelSeleccionado) {
+window.location.href = `/juego/?nivel=${nivelSeleccionado}`;
+}
+});
+
+document.getElementById('btnCerrarSesion').addEventListener('click', function() {
+window.location.href = '/logout/';
+});
+</script>
+</body>
+</html>
