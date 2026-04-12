@@ -10,3 +10,4 @@ services:
     environment:
       - DEBUG=True
       - ALLOWED_HOSTS=localhost,127.0.0.1,web
+    command: sh -c "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn memory_game.wsgi:application --bind 0.0.0.0:8000"
